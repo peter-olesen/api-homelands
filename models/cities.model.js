@@ -1,6 +1,5 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-import { Estates } from "./estates.model.js";
 
 export class Cities extends Model {}
 
@@ -11,10 +10,6 @@ Cities.init(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
-      references: {
-        model: Estates,
-        key: "city_id",
-      },
     },
 
     zipcode: {

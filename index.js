@@ -1,6 +1,6 @@
 import express from "express";
-
 import { sequelize } from "./config/sequelize.config.js";
+
 import { dbController } from "./controllers/db.controller.js";
 import { authController } from "./controllers/auth.controller.js";
 import { cityController } from "./controllers/cities.controller.js";

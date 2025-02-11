@@ -1,7 +1,5 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-import { Favorites } from "./favorites.model.js";
-import { Reviews } from "./reviews.model.js";
 import bcrypt from "bcrypt";
 
 export class Users extends Model {}
@@ -13,14 +11,6 @@ Users.init(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
-      references: {
-        model: Favorites,
-        key: "user_id",
-      },
-      references: {
-        model: Reviews,
-        key: "user_id",
-      },
     },
 
     firstname: {
