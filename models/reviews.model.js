@@ -1,6 +1,7 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
 import { Estates } from "./estates.model.js";
+import { Users } from "./users.model.js";
 
 export class Reviews extends Model {}
 
@@ -45,6 +46,10 @@ Reviews.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Users,
+        key: "id",
+      },
     },
 
     is_active: {

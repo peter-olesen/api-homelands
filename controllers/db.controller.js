@@ -33,10 +33,10 @@ dbController.get("/seedfromcsv", async (req, res) => {
     await seedFromCsv("./energy-label.csv", EnergyLabels);
     await seedFromCsv("./estate-image-rel.csv", EstateImageRel);
     await seedFromCsv("./estate-type.csv", EstateTypes);
-    // await seedFromCsv("./estate.csv", Estates);
+    await seedFromCsv("./estate.csv", Estates);
     await seedFromCsv("./favorite.csv", Favorites);
     await seedFromCsv("./image.csv", Images);
-    // await seedFromCsv("./review.csv", Reviews);
+    await seedFromCsv("./review.csv", Reviews);
     await seedFromCsv("./staff.csv", Staffs);
     await seedFromCsv("./user.csv", Users);
 

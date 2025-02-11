@@ -7,28 +7,6 @@ import { EnergyLabels } from "../models/energy_labels.model.js";
 
 export const estateController = express.Router();
 
-Estates.belongsTo(Cities, {
-  foreignKey: {
-    allowNull: false,
-  },
-});
-
-Estates.belongsTo(EstateTypes, {
-  foreignKey: {
-    allowNull: false,
-  },
-});
-
-Estates.belongsTo(EnergyLabels, {
-  foreignKey: {
-    allowNull: false,
-  },
-});
-
-Cities.hasMany(Estates);
-EstateTypes.hasMany(Estates);
-EnergyLabels.hasMany(Estates);
-
 estateController.get("/estates", async (req, res) => {
   try {
     let estateData = await Estates.findAll();

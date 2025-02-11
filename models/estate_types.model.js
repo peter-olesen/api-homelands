@@ -11,10 +11,10 @@ EstateTypes.init(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
-      // references: {
-      //   model: Estates,
-      //   key: "type_id",
-      // },
+      references: {
+        model: Estates,
+        key: "type_id",
+      },
     },
 
     name: {

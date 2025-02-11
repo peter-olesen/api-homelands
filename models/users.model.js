@@ -1,8 +1,8 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-import bcrypt from "bcrypt";
 import { Favorites } from "./favorites.model.js";
 import { Reviews } from "./reviews.model.js";
+import bcrypt from "bcrypt";
 
 export class Users extends Model {}
 

@@ -1,9 +1,5 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-// import { Favorites } from "./favorites.model.js";
-// import { EstateImageRel } from "./estate_image_rel.model.js";
-// import { Favorites } from "./favorites.model.js";
-// import { Reviews } from "./reviews.model.js";
 
 export class Estates extends Model {}
 
@@ -14,9 +10,6 @@ Estates.init(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
-      // references: {
-      //   model: EstateImageRel,
-      //   key: "estate_id",
     },
 
     address: {
