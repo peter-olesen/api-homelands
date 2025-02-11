@@ -1,7 +1,33 @@
 import express from "express";
 import { Estates } from "../models/estates.model.js";
+import { EstateTypes } from "../models/estate_types.model.js";
+import { Cities } from "../models/cities.model.js";
+import { EnergyLabels } from "../models/energy_labels.model.js";
+// import { Reviews } from "../models/reviews.model.js";
 
 export const estateController = express.Router();
+
+Estates.belongsTo(Cities, {
+  foreignKey: {
+    allowNull: false,
+  },
+});
+
+Estates.belongsTo(EstateTypes, {
+  foreignKey: {
+    allowNull: false,
+  },
+});
+
+Estates.belongsTo(EnergyLabels, {
+  foreignKey: {
+    allowNull: false,
+  },
+});
+
+Cities.hasMany(Estates);
+EstateTypes.hasMany(Estates);
+EnergyLabels.hasMany(Estates);
 
 estateController.get("/estates", async (req, res) => {
   try {

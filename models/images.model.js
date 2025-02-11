@@ -1,5 +1,6 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
+import { EstateImageRel } from "./estate_image_rel.model.js";
 
 export class Images extends Model {}
 

@@ -2,6 +2,7 @@ import express from "express";
 
 import { sequelize } from "./config/sequelize.config.js";
 import { dbController } from "./controllers/db.controller.js";
+import { authController } from "./controllers/auth.controller.js";
 import { cityController } from "./controllers/cities.controller.js";
 import { estateController } from "./controllers/estates.controller.js";
 import { estateTypeController } from "./controllers/estate_types.controller.js";
@@ -9,7 +10,6 @@ import { favoriteController } from "./controllers/favorites.controller.js";
 import { reviewController } from "./controllers/reviews.controller.js";
 import { staffController } from "./controllers/staffs.controller.js";
 import { userController } from "./controllers/users.controller.js";
-import { authController } from "./controllers/auth.controller.js";
 
 const app = express();
 const port = 4000;

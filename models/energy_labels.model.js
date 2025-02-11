@@ -1,5 +1,6 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
+import { Estates } from "./estates.model.js";
 
 export class EnergyLabels extends Model {}
 

@@ -1,7 +1,16 @@
 import express from "express";
 import { Reviews } from "../models/reviews.model.js";
+import { Estates } from "../models/estates.model.js";
 
 export const reviewController = express.Router();
+
+Reviews.belongsTo(Estates, {
+  foreignKey: {
+    allowNull: true,
+  },
+});
+
+Estates.hasMany(Reviews);
 
 reviewController.get("/reviews", async (req, res) => {
   try {

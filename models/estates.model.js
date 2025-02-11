@@ -1,8 +1,9 @@
 import { sequelize } from "../config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-import { EstateImageRel } from "./estate_image_rel.model.js";
-import { Favorites } from "./favorites.model.js";
-import { Reviews } from "./reviews.model.js";
+// import { Favorites } from "./favorites.model.js";
+// import { EstateImageRel } from "./estate_image_rel.model.js";
+// import { Favorites } from "./favorites.model.js";
+// import { Reviews } from "./reviews.model.js";
 
 export class Estates extends Model {}
 
@@ -13,20 +14,9 @@ Estates.init(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
-      references: {
-        model: EstateImageRel,
-        key: "estate_id",
-      },
-
-      references: {
-        model: Favorites,
-        key: "estate_id",
-      },
-
-      references: {
-        model: Reviews,
-        key: "estate_id",
-      },
+      // references: {
+      //   model: EstateImageRel,
+      //   key: "estate_id",
     },
 
     address: {
@@ -86,7 +76,7 @@ Estates.init(
 
     year_of_construction: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
 
     year_rebuilt: {
@@ -95,7 +85,7 @@ Estates.init(
     },
 
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
 
@@ -116,7 +106,7 @@ Estates.init(
 
     type_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
 
     energy_label_id: {

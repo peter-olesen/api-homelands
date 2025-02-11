@@ -65,14 +65,20 @@ Users.init(
         Users.password = await createHash(Users.password);
       },
       beforeUpdate: async (Users, options) => {
-        Users.password = await createHash(Users.password);
+        if (Users.changed("password")) {
+          Users.password = await createHash(Users.password);
+        }
       },
     },
   }
 );
 
 const createHash = async (string) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashed_string = await bcrypt.hash(string, salt);
-  return hashed_string;
+  try {
+    const salt = await bcrypt.genSalt(10);
+
+    return await bcrypt.hash(string, salt);
+  } catch (error) {
+    throw new Error("Error hashing password");
+  }
 };
