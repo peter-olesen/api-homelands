@@ -17,9 +17,11 @@ export const dbController = express.Router();
 
 dbController.get("/sync", async (req, res) => {
   try {
-    // { force: true }
-    const resp = await sequelize.sync({ force: true });
-    res.send("Server is synched");
+    const forceSync = req.query.force === "true";
+    await sequelize.sync({ force: forceSync });
+    res.send(
+      `Database synchronized ${forceSync ? "with force" : "without force"}`
+    );
   } catch (error) {
     console.error("Sync error", error);
     res.status(500).send(`Database Sync Error: ${error.message}`);
