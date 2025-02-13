@@ -1,7 +1,17 @@
 import express from "express";
 import { Estates } from "../models/estates.model.js";
+import { Cities } from "../models/cities.model.js";
+import { EstateTypes } from "../models/estate_types.model.js";
+import { EnergyLabels } from "../models/energy_labels.model.js";
 
 export const estateController = express.Router();
+
+Estates.belongsTo(Cities);
+Cities.hasMany(Estates);
+Estates.belongsTo(EstateTypes);
+EstateTypes.hasMany(Estates);
+Estates.belongsTo(EnergyLabels);
+EnergyLabels.hasMany(Estates);
 
 estateController.get("/estates", async (req, res) => {
   try {
