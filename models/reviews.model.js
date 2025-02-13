@@ -20,7 +20,7 @@ Reviews.init(
     },
 
     comment: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
 

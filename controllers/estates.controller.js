@@ -51,9 +51,49 @@ estateController.get("/estates/:id([0-9]*)", async (req, res) => {
 });
 
 estateController.post("/estates", async (req, res) => {
-  const { zipcode, name } = req.body;
+  const {
+    address,
+    price,
+    payout,
+    gross,
+    net,
+    cost,
+    num_rooms,
+    num_floors,
+    floor_space,
+    ground_space,
+    basement_space,
+    year_of_construction,
+    year_rebuilt,
+    description,
+    floorplan,
+    num_clicks,
+    city_id,
+    type_id,
+    energy_label_id,
+  } = req.body;
 
-  if (!zipcode || !name) {
+  if (
+    !address ||
+    !price ||
+    !payout ||
+    !gross ||
+    !net ||
+    !cost ||
+    !num_rooms ||
+    !num_floors ||
+    !floor_space ||
+    !ground_space ||
+    !basement_space ||
+    !year_of_construction ||
+    !year_rebuilt ||
+    !description ||
+    !floorplan ||
+    !num_clicks ||
+    !city_id ||
+    !type_id ||
+    !energy_label_id
+  ) {
     return res.status(400).json({ message: `You need to add xxx` });
   }
 
@@ -69,30 +109,67 @@ estateController.post("/estates", async (req, res) => {
   }
 });
 
-estateController.put("/estates", async (req, res) => {
-  const { id, name, zipcode } = req.body;
+estateController.put("/estates/:id([0-9]+)", async (req, res) => {
+  const {
+    address,
+    price,
+    payout,
+    gross,
+    net,
+    cost,
+    num_rooms,
+    num_floors,
+    floor_space,
+    ground_space,
+    basement_space,
+    year_of_construction,
+    year_rebuilt,
+    description,
+    floorplan,
+    num_clicks,
+    city_id,
+    type_id,
+    energy_label_id,
+  } = req.body;
 
-  if (id && name) {
-    try {
-      const result = await Estates.update({ zipcode, name }, { where: { id } });
+  const id = parseInt(req.params.id, 10);
 
-      if (result[0] > 0) {
-        res
-          .status(200)
-          .json({ message: `Estate with id ${id} was updated to ${name}` });
-      } else {
-        res
-          .status(404)
-          .json({ message: `Estate with ${id} was not found in the database` });
-      }
-    } catch (error) {
-      res.status(500).json({
-        message: `Error while updating model Estates: ${error.message}`,
-      });
+  try {
+    const result = await Estates.update(
+      {
+        address,
+        price,
+        payout,
+        gross,
+        net,
+        cost,
+        num_rooms,
+        num_floors,
+        floor_space,
+        ground_space,
+        basement_space,
+        year_of_construction,
+        year_rebuilt,
+        description,
+        floorplan,
+        num_clicks,
+        city_id,
+        type_id,
+        energy_label_id,
+      },
+      { where: { id: id } }
+    );
+
+    if (result[0] > 0) {
+      res.status(200).json({ message: `Estate with id ${id} was updated` });
+    } else {
+      res
+        .status(404)
+        .json({ message: `Estate with ${id} was not found in the database` });
     }
-  } else {
-    res.status(400).send({
-      message: "Error in model Estates: Missing data",
+  } catch (error) {
+    res.status(500).json({
+      message: `Error while updating model Estates: ${error.message}`,
     });
   }
 });

@@ -41,12 +41,12 @@ favoriteController.get("/favorites/:id([0-9]*)", async (req, res) => {
 });
 
 favoriteController.post("/favorites", async (req, res) => {
-  const { zipcode, name } = req.body;
+  const { user_id, estate_id } = req.body;
 
-  if (!zipcode || !name) {
+  if (!user_id || !estate_id) {
     return res
       .status(400)
-      .json({ message: `You need to add both zipcode and name` });
+      .json({ message: `Missing data while posting to Favorites` });
   }
 
   try {
@@ -57,39 +57,6 @@ favoriteController.post("/favorites", async (req, res) => {
 
     res.status(500).json({
       message: `Error when creating favorite in model Favorites: ${error.message}`,
-    });
-  }
-});
-
-favoriteController.put("/favorites", async (req, res) => {
-  const { id, name, zipcode } = req.body;
-
-  if (id && name) {
-    try {
-      const result = await Favorites.update(
-        { zipcode, name },
-        { where: { id } }
-      );
-
-      if (result[0] > 0) {
-        res
-          .status(200)
-          .json({ message: `Favorite with id ${id} was updated to ${name}` });
-      } else {
-        res
-          .status(404)
-          .json({
-            message: `Favorite with ${id} was not found in the database`,
-          });
-      }
-    } catch (error) {
-      res.status(500).json({
-        message: `Error while updating model Favorites: ${error.message}`,
-      });
-    }
-  } else {
-    res.status(400).send({
-      message: "Error in model Favorites: Missing data",
     });
   }
 });
