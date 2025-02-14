@@ -50,12 +50,19 @@ reviewController.get("/reviews/:id([0-9]*)", async (req, res) => {
 });
 
 reviewController.post("/reviews", async (req, res) => {
-  const { zipcode, name } = req.body;
+  const { subject, comment, num_stars, date, estate_id, user_id, is_active } =
+    req.body;
 
-  if (!zipcode || !name) {
-    return res
-      .status(400)
-      .json({ message: `You need to add both zipcode and name` });
+  if (
+    !subject ||
+    !comment ||
+    !num_stars ||
+    !date ||
+    !estate_id ||
+    !user_id ||
+    !is_active
+  ) {
+    return res.status(400).json({ message: `You need to add all the details` });
   }
 
   try {
@@ -71,16 +78,35 @@ reviewController.post("/reviews", async (req, res) => {
 });
 
 reviewController.put("/reviews", async (req, res) => {
-  const { id, name, zipcode } = req.body;
+  const {
+    id,
+    subject,
+    comment,
+    num_stars,
+    date,
+    estate_id,
+    user_id,
+    is_active,
+  } = req.body;
 
-  if (id && name) {
+  if (
+    id &&
+    subject &&
+    comment &&
+    num_stars &&
+    date &&
+    estate_id &&
+    user_id &&
+    is_active
+  ) {
     try {
-      const result = await Reviews.update({ zipcode, name }, { where: { id } });
+      const result = await Reviews.update(
+        { subject, comment, num_stars, date, estate_id, user_id, is_active },
+        { where: { id } }
+      );
 
       if (result[0] > 0) {
-        res
-          .status(200)
-          .json({ message: `Review with id ${id} was updated to ${name}` });
+        res.status(200).json({ message: `Review with id ${id} was updated.` });
       } else {
         res.status(404).json({
           message: `Review with ${id} was not found in the database`,
@@ -98,12 +124,16 @@ reviewController.put("/reviews", async (req, res) => {
   }
 });
 
-reviewController.delete("/reviews/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+reviewController.delete("/reviews", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Reviews.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

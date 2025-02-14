@@ -5,7 +5,9 @@ export const userController = express.Router();
 
 userController.get("/users", async (req, res) => {
   try {
-    let userData = await Users.findAll();
+    let userData = await Users.findAll({
+      attributes: { exclude: ["password"] },
+    });
 
     if (!userData || userData.length === 0) {
       return res.status(404).json({ message: "No users found" });
@@ -44,11 +46,9 @@ userController.post("/users", async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
 
   if (!firstname || !lastname || !email || !password) {
-    return res
-      .status(400)
-      .json({
-        message: `You need to add firstname, lastname, email and password in order to create a user`,
-      });
+    return res.status(400).json({
+      message: `You need to add firstname, lastname, email and password in order to create a user`,
+    });
   }
 
   try {
@@ -64,16 +64,17 @@ userController.post("/users", async (req, res) => {
 });
 
 userController.put("/users", async (req, res) => {
-  const { id, name, zipcode } = req.body;
+  const { id, email, firstname, lastname } = req.body;
 
-  if (id && name) {
+  if (id && email && firstname && lastname) {
     try {
-      const result = await Users.update({ zipcode, name }, { where: { id } });
+      const result = await Users.update(
+        { email, firstname, lastname },
+        { where: { id } }
+      );
 
       if (result[0] > 0) {
-        res
-          .status(200)
-          .json({ message: `User with id ${id} was updated to ${name}` });
+        res.status(200).json({ message: `User with id ${id} was updated.` });
       } else {
         res
           .status(404)
@@ -91,12 +92,16 @@ userController.put("/users", async (req, res) => {
   }
 });
 
-userController.delete("/users/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+userController.delete("/users", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Users.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

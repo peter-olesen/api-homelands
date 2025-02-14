@@ -61,12 +61,16 @@ favoriteController.post("/favorites", async (req, res) => {
   }
 });
 
-favoriteController.delete("/favorites/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+favoriteController.delete("/favorites", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Favorites.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

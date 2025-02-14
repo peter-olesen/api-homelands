@@ -89,12 +89,16 @@ cityController.put("/cities", async (req, res) => {
   }
 });
 
-cityController.delete("/cities/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+cityController.delete("/cities", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Cities.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

@@ -41,12 +41,10 @@ estateTypeController.get("/estate-type/:id([0-9]*)", async (req, res) => {
 });
 
 estateTypeController.post("/estate-type", async (req, res) => {
-  const { zipcode, name } = req.body;
+  const { name } = req.body;
 
-  if (!zipcode || !name) {
-    return res
-      .status(400)
-      .json({ message: `You need to add both zipcode and name` });
+  if (!name) {
+    return res.status(400).json({ message: `You need to add a name` });
   }
 
   try {
@@ -62,14 +60,11 @@ estateTypeController.post("/estate-type", async (req, res) => {
 });
 
 estateTypeController.put("/estate-type", async (req, res) => {
-  const { id, name, zipcode } = req.body;
+  const { id, name } = req.body;
 
   if (id && name) {
     try {
-      const result = await EstateTypes.update(
-        { zipcode, name },
-        { where: { id } }
-      );
+      const result = await EstateTypes.update({ name }, { where: { id } });
 
       if (result[0] > 0) {
         res.status(200).json({
@@ -92,12 +87,16 @@ estateTypeController.put("/estate-type", async (req, res) => {
   }
 });
 
-estateTypeController.delete("/estate-type/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+estateTypeController.delete("/estate-type", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await EstateTypes.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

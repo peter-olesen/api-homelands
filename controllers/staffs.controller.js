@@ -41,12 +41,10 @@ staffController.get("/staffs/:id([0-9]*)", async (req, res) => {
 });
 
 staffController.post("/staffs", async (req, res) => {
-  const { zipcode, name } = req.body;
+  const { firstname, lastname, position, image, phone, email } = req.body;
 
-  if (!zipcode || !name) {
-    return res
-      .status(400)
-      .json({ message: `You need to add both zipcode and name` });
+  if (!firstname || !lastname || !position || !image || !phone || !email) {
+    return res.status(400).json({ message: `You need to add all the details` });
   }
 
   try {
@@ -90,11 +88,15 @@ staffController.put("/staffs", async (req, res) => {
 });
 
 staffController.delete("/staffs/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Staffs.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {

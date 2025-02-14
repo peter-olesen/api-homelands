@@ -109,8 +109,9 @@ estateController.post("/estates", async (req, res) => {
   }
 });
 
-estateController.put("/estates/:id([0-9]+)", async (req, res) => {
+estateController.put("/estates", async (req, res) => {
   const {
+    id,
     address,
     price,
     payout,
@@ -131,8 +132,6 @@ estateController.put("/estates/:id([0-9]+)", async (req, res) => {
     type_id,
     energy_label_id,
   } = req.body;
-
-  const id = parseInt(req.params.id, 10);
 
   try {
     const result = await Estates.update(
@@ -174,12 +173,16 @@ estateController.put("/estates/:id([0-9]+)", async (req, res) => {
   }
 });
 
-estateController.delete("/estates/:id([0-9]+)", async (req, res) => {
-  try {
-    const id = parseInt(req.params.id, 10);
+estateController.delete("/estates", async (req, res) => {
+  const { id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ message: "Id missing in request body." });
+  }
+
+  try {
     let result = await Estates.destroy({
-      where: { id },
+      where: { id: id },
     });
 
     if (result > 0) {
